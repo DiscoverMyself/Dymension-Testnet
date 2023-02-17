@@ -11,7 +11,7 @@ echo "   /      \  |      /\    ";
 echo "  /_______/  |_____/  \   "; 
 echo " |   \   /        /   /   "; 
 echo "  \   \         \/   /    "; 
-echo "   \  /    R3    \__/_    "; 
+echo "   \  /          \__/_    "; 
 echo "    \/ ____    /\         "; 
 echo "      /  \    /  \        "; 
 echo "     /\   \  /   /        "; 
@@ -47,7 +47,8 @@ echo "export GENESIS=${GENESIS}" >> $HOME/.bash_profile
 # echo "export ADDRBOOK=${ADDRBOOK}" >> $HOME/.bash_profile
 echo "export PORT=${PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
-
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+source ~/.bash_profile
 
 sleep 2
 
@@ -133,9 +134,9 @@ echo -e "\e[1m\e[32m3. Download genesis file ...\e[0m" && sleep 1
 # curl -Ls https://raw.githubusercontent.com/obajay/nodes-Guides/main/Dymension/genesis.json > $HOME/.dymension/config/genesis.json
 
 # Set ports, pruning & snapshots configuration
-# echo -e "\e[1m\e[32m3. Set ports, pruning & snapshots configuration ...\e[0m" && sleep 1
-# sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${DYM_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${DYM_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${DYM_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${DYM_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${DYM_PORT}660\"%" $HOME/.dymension/config/config.toml
-# sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${DYM_PORT}317\"%; s%^address = \":8080\"%address = \":${DYM_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${DYM_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${DYM_PORT}091\"%" $HOME/.dymension/config/app.toml
+echo -e "\e[1m\e[32m3. Set ports, pruning & snapshots configuration ...\e[0m" && sleep 1
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${DYM_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${DYM_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${DYM_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${DYM_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${DYM_PORT}660\"%" $HOME/.dymension/config/config.toml
+sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${DYM_PORT}317\"%; s%^address = \":8080\"%address = \":${DYM_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${DYM_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${DYM_PORT}091\"%" $HOME/.dymension/config/app.toml
 
 # Set config pruning
 pruning="custom"
