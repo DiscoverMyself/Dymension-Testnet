@@ -9,7 +9,7 @@
 
 - [Website](https://www.dymension.xyz/)
 
-- Explorer: -
+- [Explorer](https://portal.dymension.xyz/)
 
 - [Discord](https://discord.gg/dymension)
 
@@ -24,9 +24,9 @@
 ## Hardware requirements
 - OS : Ubuntu Linux 20.04 (LTS) x64
 
-- Read Access Memory : 8 GB (higher better)
+- Read Access Memory : 16 GB (Recommended)
 
-- CPU : 2 core (higher better)
+- CPU : 4 core (higher better)
 
 - Disk: 500 GB SSD Storage (higher better)
 
