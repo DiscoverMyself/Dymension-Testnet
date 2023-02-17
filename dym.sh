@@ -36,19 +36,19 @@ PORT=26
 
 
 # export to bash profile
-	echo "export SOURCE=${SOURCE}" >> $HOME/.bash_profile
-	echo "export WALLET=${WALLET}" >> $HOME/.bash_profile
-	echo "export BINARY=${BINARY}" >> $HOME/.bash_profile
-	echo "export DENOM=${DENOM}" >> $HOME/.bash_profile
-	echo "export CHAIN=${CHAIN}" >> $HOME/.bash_profile
-	echo "export FOLDER=${FOLDER}" >> $HOME/.bash_profile
-	echo "export VERSION=${VERSION}" >> $HOME/.bash_profile
-	echo "export COSMOVISOR=${COSMOVISOR}" >> $HOME/.bash_profile
-	echo "export REPO=${REPO}" >> $HOME/.bash_profile
-	echo "export GENESIS=${GENESIS}" >> $HOME/.bash_profile
-	# echo "export ADDRBOOK=${ADDRBOOK}" >> $HOME/.bash_profile
-	echo "export PORT=${PORT}" >> $HOME/.bash_profile
-	source $HOME/.bash_profile
+echo "export SOURCE=${SOURCE}" >> $HOME/.bash_profile
+echo "export WALLET=${WALLET}" >> $HOME/.bash_profile
+echo "export BINARY=${BINARY}" >> $HOME/.bash_profile
+echo "export DENOM=${DENOM}" >> $HOME/.bash_profile
+echo "export CHAIN=${CHAIN}" >> $HOME/.bash_profile
+echo "export FOLDER=${FOLDER}" >> $HOME/.bash_profile
+echo "export VERSION=${VERSION}" >> $HOME/.bash_profile
+echo "export COSMOVISOR=${COSMOVISOR}" >> $HOME/.bash_profile
+echo "export REPO=${REPO}" >> $HOME/.bash_profile
+echo "export GENESIS=${GENESIS}" >> $HOME/.bash_profile
+# echo "export ADDRBOOK=${ADDRBOOK}" >> $HOME/.bash_profile
+echo "export PORT=${PORT}" >> $HOME/.bash_profile
+source $HOME/.bash_profile
 
 sleep 2
 
@@ -108,12 +108,10 @@ echo -e "\e[1m\e[32m5. Install & build cosmovisor... \e[0m"
 	cp cosmovisor/cosmovisor $GOPATH/bin/cosmovisor
 	cd $HOME
 
-	mkdir -p ~/$FOLDER/$COSMOVISOR
-	mkdir -p ~/$FOLDER/$COSMOVISOR/genesis
-	mkdir -p ~/$FOLDER/$COSMOVISOR/genesis/bin
-	mkdir -p ~/$FOLDER/$COSMOVISOR/upgrades
-
-	cp $GOPATH/bin/planqd ~/.planqd/cosmovisor/genesis/bin
+	mkdir -p $HOME/$FOLDER/$COSMOVISOR/genesis/bin
+	mv $HOME/go/bin/$BINARY $HOME/$FOLDER/$COSMOVISOR/genesis/bin/
+	rm -rf build
+	cp $GOPATH/bin/$BINARY ~/$FOLDER/$COSMOVISOR/genesis/bin
 
 	# create app symlinks
 	ln -s $HOME/$FOLDER/$COSMOVISOR/genesis $HOME/$FOLDER/$COSMOVISOR/current
@@ -165,22 +163,22 @@ echo -e "\e[1m\e[32m7. Set ports, pruning & snapshots configuration ...\e[0m" &&
 
 # Create Service
 echo -e "\e[1m\e[32m8. Creating service files... \e[0m" && sleep 1
-	sudo tee /etc/systemd/system/$BINARY.service > /dev/null << EOF
-	[Unit]
-	Description=$BINARY
-	After=network-online.target
-	[Service]
-	User=$USER
-	ExecStart=$(which cosmovisor) run start
-	Restart=on-failure
-	RestartSec=10
-	LimitNOFILE=65535
-	Environment="DAEMON_HOME=$HOME/$FOLDER"
-	Environment="DAEMON_NAME=$BINARY"
-	Environment="UNSAFE_SKIP_BACKUP=true"
-	[Install]
-	WantedBy=multi-user.target
-	EOF
+sudo tee /etc/systemd/system/$BINARY.service > /dev/null << EOF
+[Unit]
+Description=$BINARY
+After=network-online.target
+[Service]
+User=$USER
+ExecStart=$(which cosmovisor) run start
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=65535
+Environment="DAEMON_HOME=$HOME/$FOLDER"
+Environment="DAEMON_NAME=$BINARY"
+Environment="UNSAFE_SKIP_BACKUP=true"
+[Install]
+WantedBy=multi-user.target
+EOF
 
 	# Register And Start Service
 	sudo systemctl start $BINARY
