@@ -5,20 +5,20 @@ echo "Wait ..."
 sleep 3
 clear
        
-echo -e "\e[1;32m                          ";
-echo -e "\e[1;32m   _____\    _______      ";
-echo -e "\e[1;32m   /      \  |      /\    ";
-echo -e "\e[1;32m  /_______/  |_____/  \   ";
-echo -e "\e[1;32m |   \   /        /   /   ";
-echo -e "\e[1;32m  \   \         \/   /    ";
-echo -e "\e[1;32m   \  /    R3    \__/_    ";
-echo -e "\e[1;32m    \/ ____    /\         ";
-echo -e "\e[1;32m      /  \    /  \        ";
-echo -e "\e[1;32m     /\   \  /   /        ";
-echo -e "\e[1;32m       \   \/   /         ";
-echo -e "\e[1;32m        \___\__/          ";
-echo -e "\e[1;32m                          ";
-echo -e "\e[1;32m     R3 by: Aprame        ";
+echo -e "\e[1;32m			                          ";
+echo -e "\e[1;32m			    _____\    _______     ";
+echo -e "\e[1;32m			   /      \  |      /\    ";
+echo -e "\e[1;32m			  /_______/  |_____/  \   ";
+echo -e "\e[1;32m			 |   \   /        /   /   ";
+echo -e "\e[1;32m			  \   \         \/   /    ";
+echo -e "\e[1;32m			   \  /    R3    \__/_    ";
+echo -e "\e[1;32m			    \/ ____    /\         ";
+echo -e "\e[1;32m			      /  \    /  \        ";
+echo -e "\e[1;32m			     /\   \  /   /        ";
+echo -e "\e[1;32m			       \   \/   /         ";
+echo -e "\e[1;32m			        \___\__/          ";
+echo -e "\e[1;32m			                          ";
+echo -e "\e[1;32m			     R3 by: Aprame        ";
 echo -e "\e[0m"
 
 # set variables
@@ -33,6 +33,7 @@ REPO=https://github.com/dymensionxyz/dymension.git
 GENESIS=https://raw.githubusercontent.com/obajay/nodes-Guides/main/Dymension/genesis.json
 #ADDRBOOK=
 PORT=11
+
 
 # export to bash profile
 echo "export SOURCE=${SOURCE}" >> $HOME/.bash_profile
@@ -91,11 +92,13 @@ eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 echo -e "\e[1m\e[32m4. Downloading and building binaries... \e[0m" && sleep 1
 cd $HOME
 rm -rf $SOURCE
-git clone $REPO
+git clone $REPO --branch $VERSION
 cd $SOURCE
-git checkout $VERSION
 make install
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+
+# export GOPATH
+export PATH=$PATH:$(go env GOPATH)/bin
 
 # build bin for cosmovisor
 mkdir -p $HOME/$FOLDER/$COSMOVISOR/genesis/bin
@@ -142,7 +145,7 @@ sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/$FOLDER/config/app.toml
 
 # Set minimum gas price
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0$DENOM\"/" $HOME/$FOLDER/config/app.toml
+sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.15$DENOM\"/" $HOME/$FOLDER/config/app.toml
 
 # Enable snapshots
 #sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/.dymension/config/app.toml
