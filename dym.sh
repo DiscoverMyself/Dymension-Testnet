@@ -5,22 +5,21 @@ echo "Wait ..."
 sleep 3
 clear
        
-echo -e "\033[0;35m"
-echo "   _____\    _______      ";  
-echo "   /      \  |      /\    "; 
-echo "  /_______/  |_____/  \   "; 
-echo " |   \   /        /   /   "; 
-echo "  \   \         \/   /    "; 
-echo "   \  /    R3    \__/_    "; 
-echo "    \/ ____    /\         "; 
-echo "      /  \    /  \        "; 
-echo "     /\   \  /   /        "; 
-echo "       \   \/   /         "; 
-echo "        \___\__/          "; 
-echo "                          ";
-echo "     R3 by: Aprame        ";
+echo -e "\e[1;32m                          ";
+echo -e "\e[1;32m   _____\    _______      ";
+echo -e "\e[1;32m   /      \  |      /\    ";
+echo -e "\e[1;32m  /_______/  |_____/  \   ";
+echo -e "\e[1;32m |   \   /        /   /   ";
+echo -e "\e[1;32m  \   \         \/   /    ";
+echo -e "\e[1;32m   \  /    R3    \__/_    ";
+echo -e "\e[1;32m    \/ ____    /\         ";
+echo -e "\e[1;32m      /  \    /  \        ";
+echo -e "\e[1;32m     /\   \  /   /        ";
+echo -e "\e[1;32m       \   \/   /         ";
+echo -e "\e[1;32m        \___\__/          ";
+echo -e "\e[1;32m                          ";
+echo -e "\e[1;32m     R3 by: Aprame        ";
 echo -e "\e[0m"
-
 
 # set variables
 SOURCE=dymension
@@ -82,14 +81,14 @@ echo -e "\e[1m\e[32m2. Installing dependencies... \e[0m" && sleep 1
 sudo apt install curl build-essential git wget jq make gcc tmux chrony lz4 -y
 
 # install go
-echo -e "\e[1m\e[32m2. Installing go... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m3. Installing go... \e[0m" && sleep 1
 sudo rm -rf /usr/local/go
 curl -Ls https://go.dev/dl/go1.19.5.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
 eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
 # download and build binaries
-echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m4. Downloading and building binaries... \e[0m" && sleep 1
 cd $HOME
 rm -rf $SOURCE
 git clone $REPO
@@ -152,7 +151,7 @@ sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0$DENOM\"/" $HOME/$
 
 
 # Create Service
-echo -e "\e[1m\e[32m3. Creating service files... \e[0m" && sleep 1
+echo -e "\e[1m\e[32m5. Creating service files... \e[0m" && sleep 1
 sudo tee /etc/systemd/system/$BINARY.service > /dev/null << EOF
 [Unit]
 Description=$BINARY
