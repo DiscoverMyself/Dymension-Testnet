@@ -74,17 +74,15 @@ dymd keys delete $WALLET
 **Create Validator**
 ```
 dymd tx staking create-validator \
---amount=9000000udym \
---pubkey=$(dymd tendermint show-validator) \
---moniker=$NODENAME \
---chain-id=$DYM_CHAIN_ID \
---commission-rate=0.1 \
---commission-max-rate=0.2 \
---commission-max-change-rate=0.05 \
---min-self-delegation=1 \
---fees=10000udym \
---from=$WALLET \
--y
+    --amount=500000000000$DENOM \
+    --pubkey=$(dymd tendermint show-validator) \
+    --moniker="$NODENAME" \
+    --chain-id=$CHAIN \
+    --from=$WALLET \
+    --commission-rate="0.10" \
+    --commission-max-rate="0.20" \
+    --commission-max-change-rate="0.01" \
+    --min-self-delegation="1"
 ```
 
 **Check Validator address**
@@ -101,7 +99,7 @@ dymd tx staking edit-validator \
   --identity=<your_keybase_id> \
   --website="<your_website>" \
   --details="<your_validator_description>" \
-  --chain-id=$DYM_CHAIN_ID \
+  --chain-id=$CHAIN \
   --from=$WALLET
 ```
  
@@ -115,7 +113,7 @@ dymd tx staking delegate $(dymd tendermint show-validator) 1000000udym --from $W
 dymd tx slashing unjail \
   --broadcast-mode=block \
   --from=$WALLET \
-  --chain-id=$DYM_CHAIN_ID \
+  --chain-id=$CHAIN \
   --gas=auto --gas-adjustment 1.4
 ```
   
@@ -149,7 +147,8 @@ dymd tendermint show-node-id
 ```
 systemctl stop dymd
 systemctl disable dymd
-rm -rvf .dymd
+rm -rvf .dymension
 rm -rvf dym.sh
 rm -rvf dymension
+rm -rf ${which dymd}
 ```
