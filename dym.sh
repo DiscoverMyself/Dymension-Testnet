@@ -44,23 +44,23 @@ echo -e "Your port: \e[1m\e[32m$DYM_PORT\e[0m"
 echo '================================================='
 sleep 2
 
+# update packages
 echo -e "\e[1m\e[32m1. Updating packages... \e[0m" && sleep 1
-# update
 sudo apt update && sudo apt upgrade -y
 
+# Installing dependencies
 echo -e "\e[1m\e[32m2. Installing dependencies... \e[0m" && sleep 1
-# packages
 sudo apt install curl build-essential git wget jq make gcc tmux chrony -y
 
-echo -e "\e[1m\e[32m2. Installing go... \e[0m" && sleep 1
 # install go
+echo -e "\e[1m\e[32m2. Installing go... \e[0m" && sleep 1
 sudo rm -rf /usr/local/go
 curl -Ls https://go.dev/dl/go1.19.5.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
 eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 
-echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
 # download and build binaries
+echo -e "\e[1m\e[32m3. Downloading and building binaries... \e[0m" && sleep 1
 cd $HOME && rm -rf dymension
 git clone https://github.com/dymensionxyz/dymension.git
 sudo cp dymd /usr/local/bin/dymd
@@ -80,12 +80,14 @@ rm -rf build
 ln -s $HOME/.dymension/cosmovisor/genesis $HOME/.dymension/cosmovisor/current
 sudo ln -s $HOME/.dymension/cosmovisor/current/bin/dymd /usr/local/bin/dymd
 
+# init chain
 echo -e "\e[1m\e[32m3. Init chain ...\e[0m" && sleep 1
 dymd config chain-id $DYM_CHAIN_ID
 dymd config keyring-backend test
 dymd config node tcp://localhost:${DYM_PORT}657
 dymd init $NODENAME --chain-id $DYM_CHAIN_ID
 
+# Set seeds & persistent peers
 echo -e "\e[1m\e[32m3. Set seeds & persistent peers... \e[0m" && sleep 1
 sed -i -e "s/^filter_peers *=.*/filter_peers = \"true\"/" $HOME/.dymension/config/config.toml
 external_address=$(wget -qO- eth0.me)
@@ -95,13 +97,14 @@ SEEDS=""
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/.dymension/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/.dymension/config/config.toml
 
+# Download genesis file
 echo -e "\e[1m\e[32m3. Download genesis file ...\e[0m" && sleep 1
 curl -Ls https://raw.githubusercontent.com/obajay/nodes-Guides/main/Dymension/genesis.json > $HOME/.dymension/config/genesis.json
 
+# Set ports, pruning & snapshots configuration
 echo -e "\e[1m\e[32m3. Set ports, pruning & snapshots configuration ...\e[0m" && sleep 1
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${DYM_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${DYM_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${DYM_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${DYM_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${DYM_PORT}660\"%" $HOME/.dymension/config/config.toml
 sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${DYM_PORT}317\"%; s%^address = \":8080\"%address = \":${DYM_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${DYM_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${DYM_PORT}091\"%" $HOME/.dymension/config/app.toml
-
 
 # Set config pruning
 pruning="custom"
@@ -122,8 +125,8 @@ dymd tendermint unsafe-reset-all --home $HOME/.dymension --keep-addr-book
 curl -L https://snapshots.kjnodes.com/okp4-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.dymension
 
 
-echo -e "\e[1m\e[32m3. Create service files... \e[0m" && sleep 1
 # Create Service
+echo -e "\e[1m\e[32m3. Creating service files... \e[0m" && sleep 1
 sudo tee /etc/systemd/system/dymd.service > /dev/null << EOF
 [Unit]
 Description=dymd
