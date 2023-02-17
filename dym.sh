@@ -77,10 +77,10 @@ mv $HOME/go/bin/dymd $HOME/.dymension/cosmovisor/genesis/bin
 rm -rf build
 
 # create app symlinks
-ln -s $HOME/.dymension/cosmovisor/genesis $HOME/.dymension/cosmovisor/current
-sudo ln -s $HOME/.dymension/cosmovisor/current/bin/dymd /usr/local/bin/dymd
+#ln -s $HOME/.dymension/cosmovisor/genesis $HOME/.dymension/cosmovisor/current
+#sudo ln -s $HOME/.dymension/cosmovisor/current/bin/dymd /usr/local/bin/dymd
 
-# init chain
+# init chain & config app
 echo -e "\e[1m\e[32m3. Init chain ...\e[0m" && sleep 1
 dymd config chain-id $DYM_CHAIN_ID
 dymd config keyring-backend test
