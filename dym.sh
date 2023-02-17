@@ -180,7 +180,7 @@ echo -e "\e[1m\e[35m================ KELAR CUY, JAN LUPA BUAT WALLET & REQ FAUCE
 echo ""
 echo -e "To check service status : \e[1m\e[35msystemctl status $BINARY\e[0m"
 echo -e "To check logs status : \e[1m\e[35mjournalctl -fu dymd -o cat\e[0m"
-echo -e "To check Blocks status : \e[1m\e[35m$BINARY 2>&1 | jq .SyncInfo\e[0m"
+echo -e "To check Blocks status : \e[1m\e[35m$BINARY status 2>&1 | jq .SyncInfo\e[0m"
 echo ""
 sleep 3
 
