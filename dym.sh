@@ -99,7 +99,7 @@ sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/.dymension/config/config.tom
 
 # Download genesis file
 echo -e "\e[1m\e[32m3. Download genesis file ...\e[0m" && sleep 1
-curl -Ls https://raw.githubusercontent.com/obajay/nodes-Guides/main/Dymension/genesis.json > $HOME/.dymension/config/genesis.json
+# curl -Ls https://raw.githubusercontent.com/obajay/nodes-Guides/main/Dymension/genesis.json > $HOME/.dymension/config/genesis.json
 
 # Set ports, pruning & snapshots configuration
 echo -e "\e[1m\e[32m3. Set ports, pruning & snapshots configuration ...\e[0m" && sleep 1
@@ -117,12 +117,12 @@ sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.dymension/config/app.toml
 
 # Set minimum gas price
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0$DENOM\"/" $HOME/.dymension/config/app.toml
+sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0udym\"/" $HOME/.dymension/config/app.toml
 
 # Enable snapshots
-sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/.dymension/config/app.toml
-dymd tendermint unsafe-reset-all --home $HOME/.dymension --keep-addr-book
-curl -L https://snapshots.kjnodes.com/okp4-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.dymension
+#sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/.dymension/config/app.toml
+#dymd tendermint unsafe-reset-all --home $HOME/.dymension --keep-addr-book
+#curl -L https://snapshots.kjnodes.com/okp4-testnet/snapshot_latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.dymension
 
 
 # Create Service
