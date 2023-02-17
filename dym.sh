@@ -49,8 +49,6 @@ echo "export GENESIS=${GENESIS}" >> $HOME/.bash_profile
 # echo "export ADDRBOOK=${ADDRBOOK}" >> $HOME/.bash_profile
 echo "export PORT=${PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
 
 sleep 2
 
@@ -64,9 +62,8 @@ if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
 fi
 
-echo "export DYM_CHAIN_ID=35-C" >> $HOME/.bash_profile
-echo "export DYM_PORT=54" >> $HOME/.bash_profile
-source $HOME/.bash_profile
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+source ~/.bash_profile
 
 echo '================================================='
 echo -e "Your node name: \e[1m\e[32m$NODENAME\e[0m"
